@@ -1,0 +1,1 @@
+"# oepnapi-type-generator" 

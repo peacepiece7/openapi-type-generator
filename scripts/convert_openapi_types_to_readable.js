@@ -89,22 +89,40 @@ await main()
 
 async function main() {
   for (const { url, name } of SPEC_URL_MAP) {
-    const modelsDirPath = path.join(outputRootPath, name, 'models')
-    const files = await fs.readdir(modelsDirPath)
+    const filesPath = path.join(outputRootPath, name, 'models')
+    const files = await fs.readdir(filesPath)
     for (const file of files) {
       if (file.endsWith('.ts')) {
-        const filePath = path.join(modelsDirPath, file)
+        const filePath = path.join(filesPath, file)
 
-        // Read the content of each TypeScript file
+        // .ts 파일을 읽어옵니다.
         let content = await fs.readFile(filePath, 'utf8')
+
+        // 파일 내용을 줄 단위(line feed, carrage return)로 나눕니다.
         let strs = content.split('\n')
+
+        /**
+         *  @description 첫 네 줄을 제거합니다.
+         */
         strs = removeFirst4Lines(strs)
+        /**
+         * @description 주석을 "@property ~" 형태로 변환합니다.
+         */
         const properties = transformCommentsAndProperties(strs)
+
+        /**
+         * @description 지금까지 작업한 내용을 파일에 적용합니다.
+         */
         strs = addDescriptionAnnotationAndPropertiesAndUrl(
           strs,
           properties,
           url
         )
+
+        /**
+         * @description 속성마다 붙어있는 기본 주석을 제거합니다.
+         * vscode 기준 이 주석은 미리보기에 제공되지 않기에 필요 없습니다.
+         */
         strs = removeCommentInType(strs)
 
         await fs.writeFile(filePath, strs?.join('\n') || '', 'utf8')

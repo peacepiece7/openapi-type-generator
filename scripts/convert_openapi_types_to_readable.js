@@ -1,105 +1,8 @@
 import fs from 'fs/promises'
 import path from 'path'
+import { SPEC_URL_MAP } from './constants.js'
 
 const outputRootPath = './__generated__'
-const SPEC_URL_MAP = [
-  {
-    url: 'http://sportsclub-dev.sports.or.kr/api/support/v3/api-docs/행정지원공통',
-    link: 'https://sportsclub-dev.sports.or.kr/api/support/swagger-ui/index.html?urls.primaryName=행정지원공통',
-    name: '행정지원공통',
-    output: '행정지원공통',
-  },
-  {
-    url: 'http://sportsclub-dev.sports.or.kr/api/support/v3/api-docs/체육회비납부',
-    link: 'https://sportsclub-dev.sports.or.kr/api/support/swagger-ui/index.html?urls.primaryName=체육회비납부',
-    name: '체육회비납부',
-    output: '체육회비납부',
-  },
-  {
-    url: 'http://sportsclub-dev.sports.or.kr/api/support/v3/api-docs/전문선수반',
-    link: 'https://sportsclub-dev.sports.or.kr/api/support/swagger-ui/index.html?urls.primaryName=전문선수반',
-    name: '전문선수반',
-    output: '전문선수반',
-  },
-  {
-    url: 'http://sportsclub-dev.sports.or.kr/api/support/v3/api-docs/예제모음',
-    link: 'https://sportsclub-dev.sports.or.kr/api/support/swagger-ui/index.html?urls.primaryName=예제모음',
-    name: '예제모음',
-    output: '예제모음',
-  },
-  {
-    url: 'http://sportsclub-dev.sports.or.kr/api/support/v3/api-docs/신청관련정보',
-    link: 'https://sportsclub-dev.sports.or.kr/api/support/swagger-ui/index.html?urls.primaryName=신청관련정보',
-    name: '신청관련정보',
-    output: '신청관련정보',
-  },
-  {
-    url: 'http://sportsclub-dev.sports.or.kr/api/support/v3/api-docs/신청 관리',
-    link: 'https://sportsclub-dev.sports.or.kr/api/support/swagger-ui/index.html?urls.primaryName=신청%20관리',
-    name: '신청_관리',
-    output: '신청_관리',
-  },
-  {
-    url: 'http://sportsclub-dev.sports.or.kr/api/support/v3/api-docs/시스템관리',
-    link: 'https://sportsclub-dev.sports.or.kr/api/support/swagger-ui/index.html?urls.primaryName=시스템관리',
-    name: '시스템관리',
-    output: '시스템관리',
-  },
-  {
-    url: 'http://sportsclub-dev.sports.or.kr/api/support/v3/api-docs/스포츠클럽 시설현황',
-    link: 'https://sportsclub-dev.sports.or.kr/api/support/swagger-ui/index.html?urls.primaryName=시설정보',
-    name: '시설정보',
-    output: '시설정보',
-  },
-  {
-    url: 'http://sportsclub-dev.sports.or.kr/api/support/v3/api-docs/스포츠클럽 현황',
-    link: 'https://sportsclub-dev.sports.or.kr/api/support/swagger-ui/index.html?urls.primaryName=스포츠클럽%20현황',
-    name: '스포츠클럽_현황',
-    output: '스포츠클럽_현황',
-  },
-  {
-    url: 'http://sportsclub-dev.sports.or.kr/api/support/v3/api-docs/스포츠클럽 등록신청 관리',
-    link: 'https://sportsclub-dev.sports.or.kr/api/support/swagger-ui/index.html?urls.primaryName=스포츠클럽%20등록신청%20관리',
-    name: '스포츠클럽_등록신청_관리',
-    output: '스포츠클럽_등록신청_관리',
-  },
-  {
-    url: 'http://sportsclub-dev.sports.or.kr/api/support/v3/api-docs/순회지도',
-    link: 'https://sportsclub-dev.sports.or.kr/api/support/swagger-ui/index.html?urls.primaryName=순회지도',
-    name: '순회지도',
-    output: '순회지도',
-  },
-  {
-    url: 'http://sportsclub-dev.sports.or.kr/api/support/v3/api-docs/사용자관리',
-    link: 'https://sportsclub-dev.sports.or.kr/api/support/swagger-ui/index.html?urls.primaryName=사용자관리',
-    name: '사용자관리',
-    output: '사용자관리',
-  },
-  {
-    url: 'http://sportsclub-dev.sports.or.kr/api/support/v3/api-docs/메인포탈관리',
-    link: 'https://sportsclub-dev.sports.or.kr/api/support/swagger-ui/index.html?urls.primaryName=메인포탈관리',
-    name: '메인포탈관리',
-    output: '메인포탈관리',
-  },
-  {
-    url: 'http://sportsclub-dev.sports.or.kr/api/support/v3/api-docs/대시보드',
-    link: 'https://sportsclub-dev.sports.or.kr/api/support/swagger-ui/index.html?urls.primaryName=대시보드',
-    name: '대시보드',
-    output: '대시보드',
-  },
-  {
-    url: 'http://sportsclub-dev.sports.or.kr/api/support/v3/api-docs/공모현황',
-    link: 'https://sportsclub-dev.sports.or.kr/api/support/swagger-ui/index.html?urls.primaryName=공모현황',
-    name: '공모현황',
-    output: '공모현황',
-  },
-  {
-    url: 'http://sportsclub-dev.sports.or.kr/api/support/v3/api-docs/IT서비스관리',
-    link: 'https://sportsclub-dev.sports.or.kr/api/support/swagger-ui/index.html?urls.primaryName=IT서비스관리',
-    name: 'IT서비스관리',
-    output: 'IT서비스관리',
-  },
-]
 
 await main()
 
@@ -125,6 +28,8 @@ async function main() {
          * @description 주석을 "@property ~" 형태로 변환합니다.
          */
         const properties = transformCommentsAndProperties(strs)
+
+        strs = convertEnumToReadable(strs)
 
         /**
          * @description 지금까지 작업한 내용을 파일에 적용합니다.
@@ -251,4 +156,63 @@ function removeCommentInType(strs) {
   })
 
   return strs.filter((str) => str !== null)
+}
+
+/**
+ * @param {stirng[]} str
+ */
+function convertEnumToReadable(strs) {
+  let isInEnum = false
+  let isInEnumDescription = false
+  let isInNameSpace = false
+  let enumMsgs = []
+
+  for (let i = 0; i < strs.length; i++) {
+    const line = strs[i].trim()
+
+    // namespace 시작
+    if (line.match(/export namespace/)) {
+      isInNameSpace = true
+      continue
+    }
+
+    // namespace 안이 아니면 종료
+    if (!isInNameSpace) continue
+
+    // namespace 종료
+    if (!isInEnum && line.match(/}/)) isInNameSpace = false
+
+    // enum description 시작/종료
+    if (line.match(/\/\*\*/)) {
+      isInEnumDescription = true
+      continue
+    } else if (line.match(/\*\//)) isInEnumDescription = false
+
+    // enum 시작/종료
+    if (line.match(/export enum/)) {
+      isInEnum = true
+      continue
+    }
+    if (line.match(/}/)) {
+      isInEnum = false
+      enumMsgs = []
+      continue
+    }
+
+    if (isInEnumDescription) {
+      const [key, value] = line.replace('*', '').trim().split(':')
+      if (key && value)
+        enumMsgs.push({ key: key.trim(), value: value.replaceAll(' ', '') })
+    }
+
+    if (isInEnum) {
+      enumMsgs.forEach(({ key, value }) => {
+        const isMatched = line.match(`${key} = '${key}'`)
+        if (!isMatched) return
+        strs[i] = '    ' + line.replace(key, `'${value}'`)
+      })
+    }
+  }
+
+  return strs
 }

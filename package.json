@@ -4,9 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "gen:url": "node ./scripts/gen_openapi_types_by_sepc_url",
-    "gen:file": "node ./scripts/gen_openapi_types_by_spec_file",
-    "convert": "node ./scripts/convert_openapi_types_to_readable",
+    "gen:v1:url": "node ./scripts/gen_openapi_types_by_sepc_url",
+    "gen:v1:file": "node ./scripts/gen_openapi_types_by_spec_file",
+    "gen:v1:convert": "node ./scripts/convert_openapi_types_to_readable",
+    "gen:v2:url": "node ./scripts_v2/get_swagger_options",
+    "gen:v2:spec": "node ./scripts_v2/gen_openapi_types_by_sepc_url",
+    "gen:v2:convert": "node ./scripts_v2/convert_openapi_types_to_readable",
+    "gen:v2:copy": "node ./scripts_v2/copy_types",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -18,5 +22,8 @@
     "puppeteer": "^24.6.1",
     "rimraf": "^6.0.1"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "glob": "^10.3.10"
+  }
 }

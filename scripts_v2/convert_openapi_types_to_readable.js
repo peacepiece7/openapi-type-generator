@@ -1,6 +1,6 @@
 import fs from 'fs/promises'
 import path from 'path'
-import { SPEC_URL_MAP } from './constants.js'
+import SPEC_URL_MAP from './swagger_options.json' assert { type: 'json' }
 
 const outputRootPath = './__generated__'
 

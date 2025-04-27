@@ -7,10 +7,17 @@
     "gen:v1:url": "node ./scripts/gen_openapi_types_by_sepc_url",
     "gen:v1:file": "node ./scripts/gen_openapi_types_by_spec_file",
     "gen:v1:convert": "node ./scripts/convert_openapi_types_to_readable",
+    "gen:v1:openapi": "npm run gen:v1:url && npm run gen:v1:file && npm run gen:v1:convert",
     "gen:v2:url": "node ./scripts_v2/get_swagger_options",
     "gen:v2:spec": "node ./scripts_v2/gen_openapi_types_by_sepc_url",
     "gen:v2:convert": "node ./scripts_v2/convert_openapi_types_to_readable",
     "gen:v2:copy": "node ./scripts_v2/copy_types",
+    "gen:v2:openapi": "npm run gen:v2:url && npm run gen:v2:spec && npm run gen:v2:convert && npm run gen:v2:copy",
+    "gen:v3:url": "node ./scripts_v3/get_swagger_options",
+    "gen:v3:spec": "node ./scripts_v3/gen_openapi_types_by_sepc_url",
+    "gen:v3:convert": "node ./scripts_v3/convert_ast_tree",
+    "gen:v3:copy": "node ./scripts_v3/copy_types",
+    "gen:v3:openapi": "npm run gen:v3:url && npm run gen:v3:spec && npm run gen:v3:convert && npm run gen:v3:copy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -24,6 +31,7 @@
   },
   "type": "module",
   "dependencies": {
-    "glob": "^10.3.10"
+    "glob": "^10.3.10",
+    "ts-morph": "^25.0.1"
   }
 }
